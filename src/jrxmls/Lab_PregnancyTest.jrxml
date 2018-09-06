@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Lab_PregnancyTest" language="groovy" pageWidth="612" pageHeight="468" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.4641000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="37"/>
+	<parameter name="patient_no" class="java.lang.String"/>
+	<parameter name="patient_name" class="java.lang.String"/>
+	<parameter name="requested_by" class="java.lang.String"/>
+	<parameter name="patient_age" class="java.lang.String"/>
+	<parameter name="patient_sex" class="java.lang.String"/>
+	<parameter name="checkup_date" class="java.lang.String"/>
+	<parameter name="lab_category" class="java.lang.String"/>
+	<parameter name="lab_name" class="java.lang.String"/>
+	<parameter name="lab_results" class="java.lang.String"/>
+	<parameter name="medtech_name" class="java.lang.String"/>
+	<parameter name="position" class="java.lang.String"/>
+	<parameter name="license_no" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="103" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="5" width="573" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CORE DIAGNOSTIC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="31" width="572" height="26"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AND URGENT CARE CENTER, INC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="57" width="572" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<text><![CDATA[Tab-ok, Nalibunan, Abuyog, Leyte]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="72" width="572" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<text><![CDATA[Contact No: 09176870853]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="86" width="572" height="15" forecolor="#3300CC"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<text><![CDATA[corediagnostic0808@gmail.com]]></text>
+			</staticText>
+			<line>
+				<reportElement x="6" y="101" width="566" height="1"/>
+			</line>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="43" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="1" width="68" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Patient No:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="21" width="68" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Name:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="309" y="21" width="28" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Sex:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="413" y="21" width="34" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="1" width="85" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Requested by:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="78" y="1" width="130" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{patient_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="78" y="21" width="158" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{patient_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="337" y="21" width="68" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{patient_sex}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="395" y="1" width="130" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{requested_by}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="447" y="21" width="100" height="20"/>
+				<textElement>
+					<font size="11" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="209" y="0" width="27" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Age:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="236" y="0" width="29" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{patient_age}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="170" splitType="Stretch">
+			<textField>
+				<reportElement x="68" y="11" width="457" height="29"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{lab_category}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="68" y="40" width="457" height="29" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{lab_name} + " RESULT"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="187" y="84" width="226" height="35" forecolor="#00CC66"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineStyle="Double" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{lab_results}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="7" y="0" width="566" height="1"/>
+			</line>
+		</band>
+	</detail>
+	<summary>
+		<band height="76" splitType="Stretch">
+			<textField>
+				<reportElement x="9" y="10" width="178" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medtech_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="9" y="29" width="178" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="11" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{position}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="41" y="46" width="47" height="20"/>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[License #:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="88" y="46" width="99" height="20"/>
+				<textElement verticalAlignment="Top">
+					<font size="10" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{license_no}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

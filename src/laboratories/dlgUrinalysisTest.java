@@ -1,0 +1,797 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package laboratories;
+
+import classes.CommonMethod;
+import classes.DBQueries;
+import classes.GlobalVariables;
+import corediagnosticsystem.dlgLoading;
+import corediagnosticsystem.frmMain;
+import java.awt.Toolkit;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.HashMap;
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+
+/**
+ *
+ * @author ACC
+ */
+public class dlgUrinalysisTest extends javax.swing.JDialog {
+
+    private frmMain main;
+    private String patientNo;
+    private JasperReport jasperReport;
+    private JasperPrint jasperPrint;
+    private HashMap hmap = new HashMap();
+
+    /**
+     * Creates new form dlgPregnancyTest
+     */
+    public dlgUrinalysisTest(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+    }
+
+    public dlgUrinalysisTest(frmMain parent, boolean modal, String labCategory, String labName, String patientNo, String checkupDate, String checkupLaboratoryID) {
+        super(parent, modal);
+        initComponents();
+        this.main = parent;
+        CommonMethod.setDialogScreenLocation(parent, this);
+        lblInstructions.setVisible(false);
+        lblPatientID.setText(patientNo);
+        lblLaboratoryName.setText(labName);
+        lblCategoryName.setText(labCategory);
+        lblTitle.setName(checkupLaboratoryID);
+        this.patientNo = patientNo;
+        searchPatientInfo(CommonMethod.TrimPatientID(patientNo));
+        searchMedTechInfo(frmMain.USERNAME);
+        //showLoading(0,"Loading Patient Information...");
+    }
+
+    public void showLoading(int mode, String comment) {
+        final dlgLoading loading = new dlgLoading(this, false, comment);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                if (mode == 0) {
+                    //SavePregnancyTest();
+                } else if (mode == 1) {
+                    GenerateReports();
+                }
+                return null;
+            }
+
+            protected void done() {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    JOptionPane.showMessageDialog(dlgUrinalysisTest.this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+                loading.setVisible(false);
+                loading.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            }
+        };
+        worker.execute();
+        loading.setVisible(true);
+    }
+
+    private void searchPatientInfo(String patientNo) {
+        DBQueries db = new DBQueries();
+        try {
+            db.ConnectToDatabase();
+            db.queryPatientInfo(patientNo);
+            if (db.rs.next()) {
+                lblPatientName.setText(db.rs.getString("lastname") + ", " + db.rs.getString("firstname") + " " + db.rs.getString("extension") + " " + db.rs.getString("middlename"));
+                lblPatientSex.setText(db.rs.getString("gender"));
+                lblPatientAge.setText(db.rs.getString("age"));
+            }
+        } catch (SQLException e) {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (db.con != null) {
+                db.closeConnection();
+            }
+
+        }
+    }
+
+    private void searchMedTechInfo(String username) {
+        DBQueries db = new DBQueries();
+        try {
+            db.ConnectToDatabase();
+            db.queryMedTechInfo(username);
+            if (db.rs.next()) {
+                lblMedTechName.setText(db.rs.getString("emp_firstname") + " " + db.rs.getString("emp_middlename") + " " + db.rs.getString("emp_lastname") + " " + db.rs.getString("emp_extension"));
+                lblMedTechPosition.setText(db.rs.getString("role"));
+                lblMedTechLicenseNo.setText(db.rs.getString("license_no"));
+            }
+        } catch (SQLException e) {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (db.con != null) {
+                db.closeConnection();
+            }
+
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        pnlCenter = new javax.swing.JPanel();
+        pnlAdd = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        lblLaboratoryName = new javax.swing.JLabel();
+        lblCategoryName = new javax.swing.JLabel();
+        lblInstructions = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jTextField6 = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jTextField7 = new javax.swing.JTextField();
+        lblLaboratoryName1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jTextField8 = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jTextField9 = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jTextField10 = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        jTextField11 = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        jTextField12 = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        jTextField13 = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        jTextField14 = new javax.swing.JTextField();
+        lblLaboratoryName2 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jPanel11 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        lblPatientName = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lblPatientAge = new javax.swing.JLabel();
+        lblPatientSex = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        txtRequestedBy = new javax.swing.JTextField();
+        jPanel5 = new javax.swing.JPanel();
+        lblTitle = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        lblPatientID = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        jSeparator2 = new javax.swing.JSeparator();
+        jPanel9 = new javax.swing.JPanel();
+        lblMedTechName = new javax.swing.JLabel();
+        lblMedTechPosition = new javax.swing.JLabel();
+        lblMedTechLicenseNo = new javax.swing.JLabel();
+        btnAddSave = new javax.swing.JButton();
+        btnAddCancel = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
+        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
+
+        pnlCenter.setLayout(new java.awt.CardLayout());
+
+        pnlAdd.setLayout(new java.awt.BorderLayout());
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        lblLaboratoryName.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
+        lblLaboratoryName.setForeground(new java.awt.Color(0, 204, 0));
+        lblLaboratoryName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLaboratoryName.setText("MACROSCOPIC");
+
+        lblCategoryName.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblCategoryName.setForeground(new java.awt.Color(51, 0, 255));
+        lblCategoryName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCategoryName.setText("CATEGORY NAME");
+
+        lblInstructions.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblInstructions.setForeground(new java.awt.Color(255, 51, 0));
+        lblInstructions.setText("Click Print button to generate form.");
+
+        jPanel1.setOpaque(false);
+        jPanel1.setLayout(new java.awt.GridLayout(7, 2, 2, 2));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel1.setText("  Color: ");
+        jPanel1.add(jLabel1);
+        jPanel1.add(jTextField1);
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("  Transparency: ");
+        jPanel1.add(jLabel3);
+        jPanel1.add(jTextField2);
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel6.setText("  pH: ");
+        jPanel1.add(jLabel6);
+        jPanel1.add(jTextField3);
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("  Specific Gravity: ");
+        jPanel1.add(jLabel7);
+        jPanel1.add(jTextField4);
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel9.setText("  Protein: ");
+        jPanel1.add(jLabel9);
+        jPanel1.add(jTextField5);
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel11.setText("  Glucose: ");
+        jPanel1.add(jLabel11);
+        jPanel1.add(jTextField6);
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel12.setText("  Others: ");
+        jPanel1.add(jLabel12);
+        jPanel1.add(jTextField7);
+
+        lblLaboratoryName1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblLaboratoryName1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLaboratoryName1.setText("Pregnancy Test");
+
+        jPanel2.setOpaque(false);
+        jPanel2.setLayout(new java.awt.GridLayout(7, 2, 2, 2));
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel13.setText("RBC: ");
+        jPanel2.add(jLabel13);
+        jPanel2.add(jTextField8);
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel14.setText("WBC: ");
+        jPanel2.add(jLabel14);
+        jPanel2.add(jTextField9);
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel15.setText("Epithelial Cells: ");
+        jPanel2.add(jLabel15);
+        jPanel2.add(jTextField10);
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel16.setText("Mucus Threads: ");
+        jPanel2.add(jLabel16);
+        jPanel2.add(jTextField11);
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel17.setText("Amorphous Crystals: ");
+        jPanel2.add(jLabel17);
+        jPanel2.add(jTextField12);
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel18.setText("Bacteria: ");
+        jPanel2.add(jLabel18);
+        jPanel2.add(jTextField13);
+
+        jLabel19.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel19.setText("Others: ");
+        jPanel2.add(jLabel19);
+        jPanel2.add(jTextField14);
+
+        lblLaboratoryName2.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
+        lblLaboratoryName2.setForeground(new java.awt.Color(255, 153, 0));
+        lblLaboratoryName2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLaboratoryName2.setText("MICROSCOPIC");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(577, 577, 577)
+                        .addComponent(lblInstructions, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(216, 216, 216)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblLaboratoryName1, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblCategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(92, 92, 92)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblLaboratoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblLaboratoryName2, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(424, 424, 424)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(160, Short.MAX_VALUE)))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblCategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblLaboratoryName1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblLaboratoryName, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                    .addComponent(lblLaboratoryName2, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(lblInstructions))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addContainerGap(132, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(37, 37, 37)))
+        );
+
+        pnlAdd.add(jPanel3, java.awt.BorderLayout.CENTER);
+
+        jPanel6.setPreferredSize(new java.awt.Dimension(588, 80));
+        jPanel6.setLayout(new java.awt.BorderLayout());
+        jPanel6.add(jSeparator1, java.awt.BorderLayout.PAGE_END);
+
+        jPanel11.setPreferredSize(new java.awt.Dimension(710, 60));
+        jPanel11.setLayout(new java.awt.BorderLayout());
+
+        jPanel4.setPreferredSize(new java.awt.Dimension(856, 60));
+
+        lblPatientName.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        lblPatientName.setForeground(new java.awt.Color(255, 51, 0));
+        lblPatientName.setText("JUAN DELACRUZ");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel2.setText("Patient Name:");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel5.setText("Sex:");
+
+        lblPatientAge.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblPatientAge.setForeground(new java.awt.Color(255, 51, 0));
+        lblPatientAge.setText("50 Yrs Old");
+
+        lblPatientSex.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblPatientSex.setForeground(new java.awt.Color(255, 51, 0));
+        lblPatientSex.setText("Male");
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel8.setText("Age:");
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel10.setText("Requested by:");
+
+        txtRequestedBy.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtRequestedBy.setPreferredSize(new java.awt.Dimension(6, 30));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblPatientName, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblPatientAge)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblPatientSex, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtRequestedBy, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPatientName)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPatientAge, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPatientSex, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtRequestedBy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2))
+                .addContainerGap())
+        );
+
+        jPanel11.add(jPanel4, java.awt.BorderLayout.CENTER);
+
+        jPanel5.setPreferredSize(new java.awt.Dimension(856, 35));
+        jPanel5.setLayout(new java.awt.GridLayout(1, 2));
+
+        lblTitle.setFont(new java.awt.Font("Copperplate Gothic Bold", 1, 24)); // NOI18N
+        lblTitle.setText("Urinalysis Test");
+        jPanel5.add(lblTitle);
+
+        jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel4.setText("Patient No.");
+        jPanel7.add(jLabel4);
+
+        lblPatientID.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblPatientID.setForeground(new java.awt.Color(255, 51, 0));
+        lblPatientID.setText("000-000-0000");
+        jPanel7.add(lblPatientID);
+
+        jPanel5.add(jPanel7);
+
+        jPanel11.add(jPanel5, java.awt.BorderLayout.PAGE_START);
+
+        jPanel6.add(jPanel11, java.awt.BorderLayout.CENTER);
+
+        pnlAdd.add(jPanel6, java.awt.BorderLayout.PAGE_START);
+
+        jPanel8.setPreferredSize(new java.awt.Dimension(856, 70));
+        jPanel8.setLayout(new java.awt.BorderLayout());
+        jPanel8.add(jSeparator2, java.awt.BorderLayout.PAGE_START);
+
+        lblMedTechName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblMedTechName.setText("Medical Technologist Name");
+
+        lblMedTechPosition.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblMedTechPosition.setText("Postion:");
+
+        lblMedTechLicenseNo.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
+        lblMedTechLicenseNo.setText("License #");
+
+        btnAddSave.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnAddSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save_icon.png"))); // NOI18N
+        btnAddSave.setText("SAVE");
+        btnAddSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddSaveActionPerformed(evt);
+            }
+        });
+
+        btnAddCancel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnAddCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cancel.png"))); // NOI18N
+        btnAddCancel.setText("CANCEL");
+        btnAddCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddCancelActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblMedTechLicenseNo)
+                    .addComponent(lblMedTechName)
+                    .addComponent(lblMedTechPosition))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 366, Short.MAX_VALUE)
+                .addComponent(btnAddCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAddSave, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(lblMedTechName)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblMedTechPosition)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblMedTechLicenseNo)
+                .addContainerGap())
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAddSave, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAddCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel8.add(jPanel9, java.awt.BorderLayout.CENTER);
+
+        pnlAdd.add(jPanel8, java.awt.BorderLayout.PAGE_END);
+
+        pnlCenter.add(pnlAdd, "card2");
+
+        getContentPane().add(pnlCenter);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAddCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCancelActionPerformed
+        int CONFIRM = JOptionPane.showConfirmDialog(this, "Do you want to close this window?", "CONFIRM", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (CONFIRM == JOptionPane.YES_OPTION) {
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnAddCancelActionPerformed
+    /*
+    private void SavePregnancyTest() {
+        String results = cmbResult.getSelectedItem().toString();
+        if (results.equals("-SELECT-")) {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, "No results selected. Please select Pregnancy Test Result!", "ERROR", JOptionPane.ERROR_MESSAGE);
+            cmbResult.requestFocus();
+            return;
+        }
+
+        String patientNo = CommonMethod.TrimPatientID(lblPatientID.getText().trim());
+        int checkupLaboratoriesID = Integer.parseInt(lblTitle.getName());
+        String requestedBy = txtRequestedBy.getText().trim();
+        DBQueries db = new DBQueries();
+        try {
+            db.ConnectToDatabase();
+            boolean updated = db.checkLaboratoryIfAlreadyUpdated(checkupLaboratoriesID);
+            if (updated) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(null, "Results has been added already!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                main.showLoading(GlobalVariables.FORM_ONCHECKUP_MEDTECH, "Refreshing List of Patients....");
+                return;
+            }
+            db.con.setAutoCommit(false);
+            int v = db.updateCheckupLaboratory(requestedBy, checkupLaboratoriesID, frmMain.USERNAME);
+            int i = db.insertLabPregnancyTestInfo(patientNo, checkupLaboratoriesID, results);
+            if (i + v > 1) {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(null, "Congratulations! Lab results has been Inserted Successfully.", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                //this.dispose();
+                db.con.commit();
+                //disable buttons
+                cmbResult.setEnabled(false);
+                txtRequestedBy.setEditable(false);
+                lblInstructions.setVisible(true);
+                btnAddSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/print_icon.png"))); // NOI18N
+                btnAddSave.setText("PRINT");
+                btnAddCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cancel.png"))); // NOI18N
+                btnAddCancel.setText("CLOSE");
+                //main.showLoading(GlobalVariables.FORM_ONCHECKUP_MEDTECH, "Refreshing List of Patients....");
+                //GenerateReports();
+            } else {
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(null, "Insert Failed!. Please contact the System Administrator for Assisstance.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            try {
+                db.con.rollback();
+                Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(this, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            } catch (SQLException ex) {
+            }
+
+        } finally {
+            if (db.con != null) {
+                db.closeConnection();
+            }
+
+        }
+
+    }
+    */
+
+    private void GenerateReports() throws IOException {
+        String FILENAME = lblPatientID.getText() + "_" + lblLaboratoryName.getText();
+        btnAddSave.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+        try {
+            //SET PARAMETERS
+            hmap.put("patient_no", lblPatientID.getText());
+            hmap.put("patient_name", lblPatientName.getText());
+            hmap.put("requested_by", txtRequestedBy.getText().trim());
+            hmap.put("patient_age", lblPatientAge.getText());
+            hmap.put("patient_sex", lblPatientSex.getText());
+            hmap.put("lab_category", lblCategoryName.getText());
+            hmap.put("lab_name", lblLaboratoryName.getText());
+//            hmap.put("lab_results", "\""+cmbResult.getSelectedItem().toString()+"\"");
+            hmap.put("medtech_name", lblMedTechName.getText());
+            hmap.put("position", lblMedTechPosition.getText());
+            hmap.put("license_no", lblMedTechLicenseNo.getText());
+            //COMPILE JASPER DESIGN, FILL AND VIEW
+            jasperReport = JasperCompileManager.compileReport("./src/jrxmls/Lab_PregnancyTest.jrxml");//template with out school name above
+            jasperPrint = JasperFillManager.fillReport(jasperReport, hmap, new JREmptyDataSource());
+            JasperExportManager.exportReportToPdfFile(jasperPrint, "./src/pdf/" + FILENAME.replaceAll(" ", "_") + ".pdf");
+
+        } catch (Exception e) {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (jasperPrint != null) {
+                //Settings.SaveLog("" + ID, "Generating list to PDF.");
+                //int CONFIRM = JOptionPane.showConfirmDialog(this, "The list has been exported successfuly!\n\n DO YOU WANT TO OPEN THE FILE AUTOMATICALLY?", "CONFIRM", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                // if (CONFIRM == JOptionPane.YES_OPTION) {
+                //OPEN EXCEL EXPLICITLY
+                //ToastDialog.makeToast(this, "Please wait, an Excel Application will open the exported list after a few seconds!", 5);
+                Runtime.getRuntime().exec("cmd.exe /c start ./src/pdf/" + FILENAME.replaceAll(" ", "_") + ".pdf");
+
+                // }
+            }
+        }
+        btnAddSave.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }
+    private void btnAddSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSaveActionPerformed
+
+        if (btnAddSave.getText().equals("SAVE")) {
+            int CONFIRM = JOptionPane.showConfirmDialog(this, "Are all information correct?", "CONFIRM", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (CONFIRM == JOptionPane.YES_OPTION) {
+                showLoading(0, "Saving Pregnancy Test Results...");
+            }
+        } else {
+            showLoading(1, "Generating Pregnancy Test Report...");
+        }
+
+    }//GEN-LAST:event_btnAddSaveActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        main.showLoading(GlobalVariables.FORM_ONCHECKUP_MEDTECH, "Refreshing List of Patients....");
+    }//GEN-LAST:event_formWindowClosed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(dlgUrinalysisTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(dlgUrinalysisTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(dlgUrinalysisTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(dlgUrinalysisTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                dlgUrinalysisTest dialog = new dlgUrinalysisTest(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddCancel;
+    private javax.swing.JButton btnAddSave;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField10;
+    private javax.swing.JTextField jTextField11;
+    private javax.swing.JTextField jTextField12;
+    private javax.swing.JTextField jTextField13;
+    private javax.swing.JTextField jTextField14;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField7;
+    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField jTextField9;
+    private javax.swing.JLabel lblCategoryName;
+    private javax.swing.JLabel lblInstructions;
+    private javax.swing.JLabel lblLaboratoryName;
+    private javax.swing.JLabel lblLaboratoryName1;
+    private javax.swing.JLabel lblLaboratoryName2;
+    private javax.swing.JLabel lblMedTechLicenseNo;
+    private javax.swing.JLabel lblMedTechName;
+    private javax.swing.JLabel lblMedTechPosition;
+    private javax.swing.JLabel lblPatientAge;
+    private javax.swing.JLabel lblPatientID;
+    private javax.swing.JLabel lblPatientName;
+    private javax.swing.JLabel lblPatientSex;
+    private javax.swing.JLabel lblTitle;
+    private javax.swing.JPanel pnlAdd;
+    private javax.swing.JPanel pnlCenter;
+    private javax.swing.JTextField txtRequestedBy;
+    // End of variables declaration//GEN-END:variables
+}
